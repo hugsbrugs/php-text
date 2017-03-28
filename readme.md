@@ -1,10 +1,13 @@
-## php-text
+# php-text
 
 This librairy provides utilities function to ease text manipulation
 
 [![Build Status](https://travis-ci.org/hugsbrugs/php-text.svg?branch=master)](https://travis-ci.org/hugsbrugs/php-text)
 [![Coverage Status](https://coveralls.io/repos/github/hugsbrugs/php-text/badge.svg?branch=master)](https://coveralls.io/github/hugsbrugs/php-text?branch=master)
 
+## Install
+
+Install package with composer
 ```
 composer require hugsbrugs/php-text
 ```
@@ -14,6 +17,8 @@ In your PHP code, load library
 require_once __DIR__ . '/../vendor/autoload.php';
 use Hug\Text\Text as Text;
 ```
+
+## Usage
 
 Returns a random extract of a text
 ```php
@@ -69,6 +74,7 @@ Get difference between two texts in HTML
 ```php
 Text::html_diff($old, $new);
 ```
+
 ## Author
 
 Hugo Maugey [visit my website ;)](https://hugo.maugey.fr)
