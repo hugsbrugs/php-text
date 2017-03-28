@@ -422,7 +422,7 @@ class Text
      * @return array $emails
      *
      */
-    function extract_first_email($text)
+    public static function extract_first_email($text)
     {
         $emails = [];
         $emails = Text::extract_emails($text);
