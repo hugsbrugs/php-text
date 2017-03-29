@@ -75,6 +75,16 @@ Get difference between two texts in HTML
 Text::html_diff($old, $new);
 ```
 
+Guess most propable language from a text using PEAR DetectLanguage
+```php
+Text::get_lang($text, '2');
+```
+
+Get all available languages with PEAR DetectLanguage Library
+```php
+$test = Text::get_languages();
+```
+
 ## Author
 
 Hugo Maugey [visit my website ;)](https://hugo.maugey.fr)

@@ -4,6 +4,9 @@ namespace Hug\Text;
 
 use \ForceUTF8\Encoding;
 
+use TextLanguageDetect\TextLanguageDetect;
+use TextLanguageDetect\LanguageDetect\TextLanguageDetectException;
+
 /**
  *
  */
@@ -509,4 +512,74 @@ class Text
         return $ret;
     }
 
+
+    /**
+     * Guess most propable language from a text
+     *
+     * @param string $text Text to guess language from
+     * @param string $lang_format the language code to return (can be full, 2 or 3)
+     *
+     * @return string $lang
+     *
+     * @link http://pear.php.net/manual/en/package.text.text-languagedetect.php
+     */
+    public static function get_lang($text, $lang_format = '2')
+    {
+        $lang = null;
+        try
+        {
+            $l = new TextLanguageDetect();
+
+            # Set the return language format
+            switch($lang_format)
+            {
+                case 'full':
+                    # Do nothing : default behavior
+                    break;
+                case '2':
+                    $l->setNameMode(2);
+                    break;
+                case '3':
+                    $l->setNameMode(3);
+                    break;
+                default:
+                    break;
+            }
+
+            # Detect Language
+            $lang = $l->detectSimple($text);
+
+            unset($l);
+        }
+        catch (TextLanguageDetectException $e)
+        {
+            error_log("Text::get_lang : " . $e->getMessage());
+        }
+
+        return $lang;  
+    }
+
+    /**
+     * Get all available languages with Languagedetect Library
+     *
+     * @return array $languages
+     */
+    public static function get_languages()
+    {
+        $languages = [];
+
+        try 
+        {
+            $l = new TextLanguageDetect();
+            $languages = $l->getLanguages();
+            sort($languages);
+            unset($l);
+        } 
+        catch(TextLanguageDetectException $e)
+        {
+            error_log("Text::get_languages : " . $e->getMessage());
+        }
+        
+        return $languages;
+    }
 }

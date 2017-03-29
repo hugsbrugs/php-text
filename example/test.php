@@ -98,3 +98,19 @@ echo $test . "\n";
 $test = Text::html_diff($text, $text_emails);
 echo 'Text::html_diff' . "\n";
 echo $test . "\n";
+
+/* ************************************************* */
+/* ***************** Text::get_lang **************** */
+/* ************************************************* */
+
+$test = Text::get_lang($text, '2');
+echo 'Text::get_lang' . "\n";
+echo $test . "\n";
+
+/* ************************************************* */
+/* ************** Text::get_languages ************** */
+/* ************************************************* */
+
+$test = Text::get_languages();
+echo 'Text::get_languages' . "\n";
+echo print_r($test, true) . "\n";

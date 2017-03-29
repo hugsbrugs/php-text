@@ -170,5 +170,31 @@ final class TextTest extends TestCase
         $this->assertInternalType('string', $test);
     }
 
+    /* ************************************************* */
+    /* ***************** Text::get_lang **************** */
+    /* ************************************************* */
 
+   /**
+     *
+     */
+    public function testCanGetLang()
+    {
+        $test = Text::get_lang($this->text, '2');
+        $this->assertInternalType('string', $test);
+        $this->assertEquals('fr', $test);
+    }
+
+    /* ************************************************* */
+    /* ************** Text::get_languages ************** */
+    /* ************************************************* */
+
+   /**
+     *
+     */
+    public function testCanGetLanguages()
+    {
+        $test = Text::get_languages();
+        $this->assertInternalType('array', $test);
+        $this->assertEquals(52, count($test));   
+    }
 }
