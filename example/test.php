@@ -19,6 +19,12 @@ $text_invalid_windows = file_get_contents($filename);
 $filename = __DIR__ . '/../data/text-emails.txt'; 
 $text_emails = file_get_contents($filename);
 
+$filename = __DIR__ . '/../data/text-with-BOM.txt'; 
+$text_bom = file_get_contents($filename);
+
+$filename = __DIR__ . '/../data/text-multiple-spaces.txt'; 
+$text_spaces = file_get_contents($filename);
+
 /* ************************************************* */
 /* ***************** Text::extract ***************** */
 /* ************************************************* */
@@ -114,3 +120,26 @@ echo $test . "\n";
 $test = Text::get_languages();
 echo 'Text::get_languages' . "\n";
 echo print_r($test, true) . "\n";
+
+
+/* ************************************************* */
+/* ************* Text::remove_utf8_bom ************* */
+/* ************************************************* */
+
+echo 'Text::remove_utf8_bom' . "\n";
+echo substr($text_bom, 0, 50) . '...' . "\n";
+echo 'length before ' . strlen($text_bom) . "\n";
+$test = Text::remove_utf8_bom($text_bom);
+echo substr($test, 0, 50) . '...' . "\n";
+echo 'length after ' . strlen($test) . "\n";
+// echo print_r($test, true) . "\n";
+
+/* ************************************************* */
+/* ********** Text::remove_multiple_spaces ********* */
+/* ************************************************* */
+
+echo 'Text::remove_multiple_spaces' . "\n";
+echo 'length before ' . strlen($text_spaces) . "\n";
+$test = Text::remove_multiple_spaces($text_spaces);
+echo 'length after ' . strlen($test) . "\n";
+// echo print_r($test, true) . "\n";

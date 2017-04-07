@@ -19,6 +19,8 @@ final class TextTest extends TestCase
     public $text_invalid_curly;
     public $text_invalid_windows;
     public $text_emails;
+    public $text_bom;
+    public $text_spaces;
 
     function __construct()
     {
@@ -38,6 +40,13 @@ final class TextTest extends TestCase
 
         $filename = $data . 'text-emails.txt'; 
         $this->text_emails = file_get_contents($filename);
+
+        $filename = $data . 'text-with-BOM.txt'; 
+        $this->text_bom = file_get_contents($filename);
+
+        $filename = $data . 'text-multiple-spaces.txt'; 
+        $this->text_spaces = file_get_contents($filename);
+
     }
 
     /* ************************************************* */
@@ -188,7 +197,7 @@ final class TextTest extends TestCase
     /* ************** Text::get_languages ************** */
     /* ************************************************* */
 
-   /**
+    /**
      *
      */
     public function testCanGetLanguages()
@@ -197,4 +206,38 @@ final class TextTest extends TestCase
         $this->assertInternalType('array', $test);
         $this->assertEquals(52, count($test));   
     }
+
+    /* ************************************************* */
+    /* ************* Text::remove_utf8_bom ************* */
+    /* ************************************************* */
+
+    /**
+     *
+     */
+    public function testCanRemoveUtf8Bom()
+    {    
+        $length_before =strlen($this->text_bom);
+        $test = Text::remove_utf8_bom($this->text_bom);
+        $length_after = strlen($test);
+        $this->assertInternalType('string', $test);
+        $this->assertTrue(($length_before-$length_after)===3);   
+
+    }
+
+    /* ************************************************* */
+    /* ********** Text::remove_multiple_spaces ********* */
+    /* ************************************************* */
+
+    /**
+     *
+     */
+    public function testCanRemoveMultipleSpaces()
+    {
+        $length_before =strlen($this->text_spaces);
+        $test = Text::remove_multiple_spaces($this->text_spaces);
+        $length_after =strlen($test);
+        $this->assertInternalType('string', $test);
+        $this->assertTrue($length_after<$length_before);   
+    }
+
 }

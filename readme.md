@@ -85,6 +85,19 @@ Get all available languages with PEAR DetectLanguage Library
 $test = Text::get_languages();
 ```
 
+Remove UTF-8 BOM from text
+```php
+$text_without_bom = Text::remove_utf8_bom($text_with_bom);
+```
+
+Remove multiple spaces, tabs and line breaks from text
+```php
+$text_without_spaces = Text::remove_multiple_spaces($text_with_spaces);
+```
+
+
+
+
 ## Author
 
 Hugo Maugey [visit my website ;)](https://hugo.maugey.fr)

@@ -582,4 +582,32 @@ class Text
         
         return $languages;
     }
+
+    /**
+     * Remove UTF-8 BOM from text
+     *
+     * @param string $text
+     * @return string $text cleaned text from BOM
+     */
+    public static function remove_utf8_bom($text)
+    {
+        $bom = pack('H*','EFBBBF');
+        $text = preg_replace("/^$bom/", '', $text);
+        return $text;
+    }
+
+    /**
+     * Remove multiple spaces, tabs and line breaks from text
+     *
+     * @param string $text
+     * @return string $text cleaned text from multiple spaces, tabs and line breaks
+     */
+    public static function remove_multiple_spaces($text)
+    {
+        //$html = preg_replace('~\x{00a0}~','',$html);
+        // Ligne qui peut poser problème !
+        $text = preg_replace('~\x{00a0}~siu','',$text);
+        $text = preg_replace('/\s+/', ' ',$text);
+        return $text;
+    }
 }
