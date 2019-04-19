@@ -22,7 +22,7 @@ final class TextTest extends TestCase
     public $text_bom;
     public $text_spaces;
 
-    function __construct()
+    function setUp(): void
     {
         $data = __DIR__ . '/../../../data/';
         
@@ -59,7 +59,7 @@ final class TextTest extends TestCase
     public function testCanExtract()
     {
     	$test = Text::extract($this->text, $min_extract_length = 5, $max_extract_length = 10);
-        $this->assertInternalType('string', $test);
+        $this->assertIsString($test);
     }
     
     /* ************************************************* */
@@ -72,7 +72,7 @@ final class TextTest extends TestCase
     public function testCanRemoveNonBreakingSpaces()
     {
     	$test = Text::remove_non_breaking_spaces($this->text);
-        $this->assertInternalType('string', $test);
+        $this->assertIsString($test);
     }
 
     /* ************************************************* */
@@ -85,7 +85,7 @@ final class TextTest extends TestCase
     public function testCanCleanUtf8()
     {
     	$test = Text::clean_utf8($this->text_invalid_utf8);
-        $this->assertInternalType('string', $test);
+        $this->assertIsString($test);
     }
 
     /* ************************************************* */
@@ -98,7 +98,7 @@ final class TextTest extends TestCase
     public function testCanConvertToUtf8()
     {
     	$test = Text::convert_to_utf8($this->text_invalid_utf8);
-        $this->assertInternalType('string', $test);
+        $this->assertIsString($test);
     }
 
     /* ************************************************* */
@@ -111,7 +111,7 @@ final class TextTest extends TestCase
     public function testCanFixCurly()
     {
     	$test = Text::fix_curly($this->text_invalid_curly);
-        $this->assertInternalType('string', $test);
+        $this->assertIsString($test);
     }
 
     /* ************************************************* */
@@ -124,7 +124,7 @@ final class TextTest extends TestCase
     public function testCanFixWindowsEncoding()
     {
     	$test = Text::fix_windows_encoding($this->text_invalid_windows);
-        $this->assertInternalType('string', $test);
+        $this->assertIsString($test);
     }
 
     /* ************************************************* */
@@ -137,7 +137,7 @@ final class TextTest extends TestCase
     public function testCanRemoveSentences()
     {
     	$test = Text::remove_sentences($this->text, $min_phrase_words = 12, $separator = "\n");
-        $this->assertInternalType('string', $test);
+        $this->assertIsString($test);
     }
 
     /* ************************************************* */
@@ -150,7 +150,7 @@ final class TextTest extends TestCase
     public function testCanExtractEmails()
     {
     	$test = Text::extract_emails($this->text_emails);
-        $this->assertInternalType('array', $test);
+        $this->assertIsArray($test);
     }
 
     /* ************************************************* */
@@ -163,7 +163,7 @@ final class TextTest extends TestCase
     public function testCanExtractFirstEmail()
     {
     	$test = Text::extract_first_email($this->text_emails);
-        $this->assertInternalType('string', $test);
+        $this->assertIsString($test);
     }
     
     /* ************************************************* */
@@ -176,7 +176,7 @@ final class TextTest extends TestCase
     public function testCanHtmlDiff()
     {
     	$test = Text::html_diff($this->text, $this->text_emails);
-        $this->assertInternalType('string', $test);
+        $this->assertIsString($test);
     }
 
     /* ************************************************* */
@@ -189,7 +189,7 @@ final class TextTest extends TestCase
     public function testCanGetLang()
     {
         $test = Text::get_lang($this->text, '2');
-        $this->assertInternalType('string', $test);
+        $this->assertIsString($test);
         $this->assertEquals('fr', $test);
     }
 
@@ -203,7 +203,7 @@ final class TextTest extends TestCase
     public function testCanGetLanguages()
     {
         $test = Text::get_languages();
-        $this->assertInternalType('array', $test);
+        $this->assertIsArray($test);
         $this->assertEquals(52, count($test));   
     }
 
@@ -219,7 +219,7 @@ final class TextTest extends TestCase
         $length_before =strlen($this->text_bom);
         $test = Text::remove_utf8_bom($this->text_bom);
         $length_after = strlen($test);
-        $this->assertInternalType('string', $test);
+        $this->assertIsString($test);
         $this->assertTrue(($length_before-$length_after)===3);   
 
     }
@@ -236,7 +236,7 @@ final class TextTest extends TestCase
         $length_before =strlen($this->text_spaces);
         $test = Text::remove_multiple_spaces($this->text_spaces);
         $length_after =strlen($test);
-        $this->assertInternalType('string', $test);
+        $this->assertIsString($test);
         $this->assertTrue($length_after<$length_before);   
     }
 
