@@ -414,6 +414,21 @@ class Text
             }
         }
 
+        # Remove responsive images @2x.jpg
+        $images = ['.jpg', '.jpeg', '.gif', '.png', '.webp'];
+        foreach ($emails as $key => $email)
+        {
+            foreach ($images as $key2 => $image)
+            {
+                if(substr($email, -strlen($image))===$image)
+                {
+                    unset($emails[$key]);
+                    break;
+                }
+            }
+            
+        }
+
         return $emails;
     }
 
