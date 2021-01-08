@@ -415,7 +415,7 @@ class Text
         }
 
         # Remove responsive images @2x.jpg
-        $images = ['.jpg', '.jpeg', '.gif', '.png', '.webp'];
+        $images = ['.jpg', '.jpeg', '.gif', '.png', '.webp', '.web', '.jpe'];
         foreach ($emails as $key => $email)
         {
             foreach ($images as $key2 => $image)
