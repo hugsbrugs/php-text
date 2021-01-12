@@ -414,6 +414,9 @@ class Text
             }
         }
 
+        # Set all mails as lowercase
+        $emails = array_map('mb_strtolower', $emails);
+
         # Remove responsive images @2x.jpg
         $images = ['.jpg', '.jpeg', '.gif', '.png', '.webp', '.web', '.jpe'];
         foreach ($emails as $key => $email)
