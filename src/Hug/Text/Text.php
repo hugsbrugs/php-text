@@ -398,12 +398,12 @@ class Text
             // ' at ',
         ];
 
-        $exp = "/[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})/i";
+        $exp = "/[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})/i";
         $exp_pcre = "/[a-z0-9\._%+!$&*=^|~#%'`?{}/\-]+@([a-z0-9\-]+\.){1,}([a-z]{2,6})/";
         $exp_rfc2822 = "/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/";
 
         $exp_fill_1 = "/[_a-z0-9-]+(\.[_a-z0-9-]+)*";
-        $exp_fill_2 = "[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})/i";
+        $exp_fill_2 = "[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})/i";
 
         foreach ($ats as $at)
         {
@@ -429,6 +429,21 @@ class Text
 
         # Remove junk mails
         $emails = array_diff($emails, $junk_mails);
+
+        # Remove junk mails regular expression
+        foreach ($junk_mails as $key => $junk_mail)
+        {
+            if(strpos($junk_mail, '*')!==false)
+            {
+                foreach ($emails as $key2 => $email)
+                {
+                    if(preg_match($junk_mail, $email))
+                    {
+                        unset($emails[$key2]);
+                    }
+                }
+            }
+        }
 
         # Remove responsive images @2x.jpg
         $images = ['.jpg', '.jpeg', '.gif', '.png', '.webp', '.web', '.jpe'];
