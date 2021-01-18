@@ -373,12 +373,14 @@ class Text
     /**
      * Extract all emails contained in a text
      * 
-     * @param string $text
+     * @param string $text Text to find email in
+     * @param array $junk_mails List of junk mail to be removed from list
+     * @param array $remove List of strings to be removed from emails 
      *
      * @return array $emails
      *
      */
-    public static function extract_emails($text)
+    public static function extract_emails($text, $junk_mails = [], $remove = [])
     {
         $emails = [];
         // (patrik.petroff@gmail.com) 
@@ -416,6 +418,17 @@ class Text
 
         # Set all mails as lowercase
         $emails = array_map('mb_strtolower', $emails);
+        $emails = array_unique($emails);
+
+        # Remove type errors (unicode code < >)
+        $unicode_remove = ['u003e', 'u003c'];
+        $unicode_remove = array_merge($unicode_remove, $remove);
+        $emails = array_map(function($email) use ($unicode_remove){
+            return str_replace($unicode_remove, '', $email);
+        }, $emails);
+
+        # Remove junk mails
+        $emails = array_diff($emails, $junk_mails);
 
         # Remove responsive images @2x.jpg
         $images = ['.jpg', '.jpeg', '.gif', '.png', '.webp', '.web', '.jpe'];
@@ -431,6 +444,8 @@ class Text
             }
             
         }
+
+        $emails = array_values($emails);
 
         return $emails;
     }
