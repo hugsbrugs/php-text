@@ -100,4 +100,4 @@ $text_without_spaces = Text::remove_multiple_spaces($text_with_spaces);
 
 ## Author
 
-Hugo Maugey [visit my website ;)](https://hugo.maugey.fr)
+Hugo Maugey [Webmaster](https://hugo.maugey.fr/webmaster) | [Consultant SEO](https://hugo.maugey.fr/consultant-seo) | [Fullstack developer](https://hugo.maugey.fr/developpeur-web)

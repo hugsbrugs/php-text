@@ -383,27 +383,23 @@ class Text
     public static function extract_emails($text, $junk_mails = [], $remove = [])
     {
         $emails = [];
-        // (patrik.petroff@gmail.com) 
+        
         $ats = [
             '@',
-            // ' @ ',
-            // '(at)',
-            // '(AT)',
-            // '( at )',
-            // '( AT )',
-            // '[at]',
-            // '[ at ]',
-            // '[AT]',
-            // '[ AT ]',
-            // ' at ',
+            '\s@\s', // ' @ '
+            '\(at\)', // '(at)'
+            '\(\sat\s\)', // '( at )'
+            '\[at\]', // '[at]'
+            '\[\sat\s\]', // '[ at ]'
+            '\sat\s', // ' at '
         ];
 
-        $exp = "/[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})/i";
-        $exp_pcre = "/[a-z0-9\._%+!$&*=^|~#%'`?{}/\-]+@([a-z0-9\-]+\.){1,}([a-z]{2,6})/";
-        $exp_rfc2822 = "/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/";
-
-        $exp_fill_1 = "/[_a-z0-9-]+(\.[_a-z0-9-]+)*";
-        $exp_fill_2 = "[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})/i";
+        # Original
+        // $exp_fill_1 = "/[_a-z0-9-]+(\.[_a-z0-9-]+)*";
+        // $exp_fill_2 = "[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,8})/i";
+        
+        $exp_fill_1 = "/[a-z0-9._-]+(\.[_a-z0-9_-]+)*";
+        $exp_fill_2 = "[a-z0-9._-]+(\.[a-z0-9_-]+)*(\.[a-z]{2,})/i";
 
         foreach ($ats as $at)
         {
@@ -412,7 +408,11 @@ class Text
             preg_match_all($exp, $text, $matches);
             if(count($matches[0]) > 0)
             {
-                $emails = array_merge($emails, $matches[0]);
+                $new_mails = $matches[0];
+                $new_mails = array_map(function($mail) use ($at){
+                    return str_replace($at, '@', $mail);
+                }, $new_mails);
+                $emails = array_merge($emails, $new_mails);
             }
         }
 
@@ -433,7 +433,7 @@ class Text
         # Remove junk mails regular expression
         foreach ($junk_mails as $key => $junk_mail)
         {
-            if(strpos($junk_mail, '*')!==false)
+            if(strpos($junk_mail, '/')!==false)
             {
                 foreach ($emails as $key2 => $email)
                 {
@@ -446,7 +446,7 @@ class Text
         }
 
         # Remove responsive images @2x.jpg
-        $images = ['.jpg', '.jpeg', '.gif', '.png', '.webp', '.web', '.jpe'];
+        $images = ['.jpg', '.jpeg', '.gif', '.png', '.webp', '.web', '.jpe', '.svg', '.ico'];
         foreach ($emails as $key => $email)
         {
             foreach ($images as $key2 => $image)
