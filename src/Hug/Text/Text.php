@@ -410,7 +410,7 @@ class Text
             {
                 $new_mails = $matches[0];
                 $new_mails = array_map(function($mail) use ($at){
-                    return str_replace($at, '@', $mail);
+                    return preg_replace('/'.$at.'/', '@', $mail);
                 }, $new_mails);
                 $emails = array_merge($emails, $new_mails);
             }
